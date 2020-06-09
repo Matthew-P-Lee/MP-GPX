@@ -18,6 +18,12 @@
   	<input id="secret_key" name="secret_key" type="text" value="API Secret Key" />
   	<input type="submit" value="Get GPX Data"/>
   </form>
-  <div><code>{{ output }}</code></div>
+  <br />
+  <div>Enter your MP username and secret key to get a GPX file from your todo list!  
+  No more wandering around looking for your climb!  
+  </div>
+  <br />
+  <div><img width="600px" src="{{ url_for('static', filename='example.png') }}" />
+  <div><img width="600px" src="{{ url_for('static', filename='todo.png') }}" />
 </body>
 </html>
