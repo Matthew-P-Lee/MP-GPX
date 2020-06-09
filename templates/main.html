@@ -1,0 +1,23 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>MP Todo GPX Generator - Ridgeline Analytics</title>
+  <meta name="description" content="MP Todo GPX Generator - generate a GPX file from your MP todos" />
+  <meta name="author" content="Matthew Lee">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+
+<body>
+  <script src="js/scripts.js"></script>
+  <h1>Welcome to the MP Todo GPX Generator</h1>
+  <form action="/" method="POST">
+  	<input id="username" name="username" type="text" value="MP Username" />
+  	<input id="secret_key" name="secret_key" type="text" value="API Secret Key" />
+  	<input type="submit" value="Get GPX Data"/>
+  </form>
+  <div><code>{{ output }}</code></div>
+</body>
+</html>
