@@ -12,7 +12,9 @@
 import urllib.request
 import gpxpy.gpx as gpx
 import simplejson as json
+import MPAPI_GPX as gpx
 from decimal import *
+
 
 #function to return a Python obj from a JSON result via HTTP
 def getMP_API(url):

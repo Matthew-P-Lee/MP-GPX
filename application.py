@@ -24,7 +24,7 @@ mpapi_gpx = MPAPI_GPX()
 def show_login():
 	
 	if request.method == 'POST':
-		output = mpapi_gpx.getMP_GPX(request.form['username'],request.form['secret_key'])
+		output = mpapi_gpx.getMP_GPX(request.form['username'])
 		if len(output) > 0:	
 			flash("Successfully Generated GPX")
 			resp = make_response(output)
@@ -43,7 +43,6 @@ def page_not_found(error):
 def catch_all(error):
 	error = "Well that didn't seem to work."
 	return render_template('main.html', error=error)
-
 
 if __name__ == '__main__':
 	app.run()
