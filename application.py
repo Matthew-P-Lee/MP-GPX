@@ -18,12 +18,12 @@ from MPAPI_GPX_classes import *
 def get_JSON(item):
 	return app.response_class(json.dumps(item,cls=DecimalEncoder), content_type='application/json')
 
-app = Flask(__name__)
+application = Flask(__name__)
 #cors = CORS(app, resources={r"/*": {"origins": "*"}})
 mpapi_gpx = MPAPI_GPX()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
 def show_login():
 	
 	if request.method == 'POST':
@@ -35,15 +35,15 @@ def show_login():
 			
 	return render_template('main.html')
 		
-@app.errorhandler(403)
+@application.errorhandler(403)
 def page_not_found(error):
 	return render_template('main.html', 'Access Denied')
 
-@app.errorhandler(500)
+@application.errorhandler(500)
 def page_not_found(error):
 	return render_template('main.html', 'Oops...')
 
 
 if __name__ == '__main__':
-	app.debug = True
-	app.run()
+	application.debug = True
+	application.run()
