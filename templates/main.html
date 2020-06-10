@@ -5,30 +5,67 @@
   <meta charset="utf-8">
 
   <title>MP Todo GPX Generator - Ridgeline Analytics</title>
+  
+  
   <meta name="description" content="MP Todo GPX Generator - generate a GPX file from your MP todos" />
   <meta name="author" content="Matthew Lee">
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+  
 </head>
 
 <body>
-  <script src="js/scripts.js"></script>
-  <h1>Welcome to the MP Todo GPX Generator</h1>
+	<div class="container">
+		<div class="page-header">
+		<div class="row">
+			<div class=col-sm-8>				
+				<h1>MP Todo GPX Generator</h1>
+			</div>
+			<div class=col-sm-4>				
+				<img style="max-width:120px; margin-top: -7px;" src="{{ url_for('static', filename='ridgeline-logo.jpeg') }}">
+	  		</div>
+	  	</div>
+		</div>
+		
+	  	{% if error %}
+     	 	<div class="alert alert-warning alert-dismissible" role="alert">{{error}}</div>
+	    {% endif %}
+	
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+			{% for message in messages %}
+			  <div class="alert alert-warning alert-dismissible" role="alert">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+				{{message}}
+			  </div>
+			{% endfor %}
+		  {% endif %}
+		{% endwith %}
+	
+		{% block body %}{% endblock %}
 
-  <div>
-  Have you ever wanted your GPS device or app to have all your MP todos preloaded?  Well today's your lucky day!  
-  <br />Just enter your MP username and secret key to download a GPX file of your todo list! Open it in your favorite GPS app like Garmin, Gaia or Google Earth. 
-  <br /><br />No more wandering around looking for your climb! 
-  <br /> Get your secret key at <a href="https://www.mountainproject.com/data">https://www.mountainproject.com/data</a>
-  <br />
-  </div>
+		<div class="row">
+			<div class=col-sm-8>				
+				Have you ever wanted your GPS device or app to have all your MP todos preloaded?  Well today's your lucky day!  
+				<br />Just enter your MP username and secret key to download a GPX file of your todo list! Open it in your favorite GPS app like Garmin, Gaia or Google Earth. 
+				<br /><br />No more wandering around looking for your climb! 
+				<br /> Get your secret key at <a href="https://www.mountainproject.com/data">https://www.mountainproject.com/data</a>
+			</div>
+		</div>
   
-  <div>
-  <form action="/" method="POST">
-  	<input id="username" name="username" type="text" value="MP Username" />
-  	<input id="secret_key" name="secret_key" type="text" value="API Secret Key" />
-  	<input type="submit" value="Get GPX Data"/>
-  </form>
-  </div>
-  
+		<div class="form-group">
+			<form action="/" method="POST">
+				<input id="username" name="username" type="text" value="MP Username" />
+				<input id="secret_key" name="secret_key" type="text" value="API Secret Key" />
+				<input type="submit" value="Get GPX Data"/>
+			</form>
+		</div>
+		</div>
+		  
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
 </body>
+
 </html>
+

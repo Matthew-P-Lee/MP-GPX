@@ -1,12 +1,7 @@
 import json
 import decimal
 import sys
-from flask import Flask
-from flask import jsonify
-from flask import render_template
-from flask import request
-from flask import send_file
-from flask import Response, make_response
+from flask import *
 
 from flask_cors import CORS
 from io import BytesIO
@@ -20,6 +15,8 @@ def get_JSON(item):
 
 app = Flask(__name__)
 #cors = CORS(app, resources={r"/*": {"origins": "*"}})
+app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
+
 mpapi_gpx = MPAPI_GPX()
 
 
@@ -28,20 +25,24 @@ def show_login():
 	
 	if request.method == 'POST':
 		output = mpapi_gpx.getMP_GPX(request.form['username'],request.form['secret_key'])
-		resp = make_response(output)
-		resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
-		resp.headers['Content-Disposition'] = 'attachment;filename=todos.gpx'
-		return resp
+		if len(output) > 0:	
+			flash("Successfully Generated GPX")
+			resp = make_response(output)
+			resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
+			resp.headers['Content-Disposition'] = 'attachment;filename=todos.gpx'
+			return resp
 			
 	return render_template('main.html')
 		
 @app.errorhandler(403)
 def page_not_found(error):
-	return render_template('main.html', 'Access Denied')
+	error = "Wrong username or password."
+	return render_template('main.html', error=error)
 
 @app.errorhandler(500)
-def page_not_found(error):
-	return render_template('main.html', 'Oops...')
+def catch_all(error):
+	error = "Well that didn't seem to work."
+	return render_template('main.html', error=error)
 
 
 if __name__ == '__main__':
