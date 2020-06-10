@@ -18,7 +18,7 @@ from MPAPI_GPX_classes import *
 def get_JSON(item):
 	return app.response_class(json.dumps(item,cls=DecimalEncoder), content_type='application/json')
 
-application = Flask(__name__)
+app = Flask(__name__)
 #cors = CORS(app, resources={r"/*": {"origins": "*"}})
 mpapi_gpx = MPAPI_GPX()
 
