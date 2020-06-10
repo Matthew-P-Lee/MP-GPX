@@ -23,7 +23,7 @@ application = Flask(__name__)
 mpapi_gpx = MPAPI_GPX()
 
 
-@application.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def show_login():
 	
 	if request.method == 'POST':
@@ -35,15 +35,15 @@ def show_login():
 			
 	return render_template('main.html')
 		
-@application.errorhandler(403)
+@app.errorhandler(403)
 def page_not_found(error):
 	return render_template('main.html', 'Access Denied')
 
-@application.errorhandler(500)
+@app.errorhandler(500)
 def page_not_found(error):
 	return render_template('main.html', 'Oops...')
 
 
 if __name__ == '__main__':
-	application.debug = True
-	application.run()
+	app.debug = True
+	app.run()
