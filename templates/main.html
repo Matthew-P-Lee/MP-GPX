@@ -4,10 +4,9 @@
 <head>
   <meta charset="utf-8">
 
-  <title>MP Todo GPX Generator - Ridgeline Analytics</title>
-  
-  
-  <meta name="description" content="MP Todo GPX Generator - generate a GPX file from your MP todos" />
+  <title>MP Todo GPX Generator by Ridgeline Analytics</title>
+ 
+  <meta name="description" content="MP Todo GPX Generator lets you generate a GPX file from your todo list on Mountain Project." />
   <meta name="author" content="Matthew Lee">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
@@ -16,21 +15,16 @@
 
 <body>
 	<div class="container">
-		<div class="row">
-			<div class=col-sm-8>				
-				<h1>MP Todo GPX Generator</h1>
-			</div>
-	  	</div>
-		
+		<h1>MP Todo GPX Generator</h1>
+	
 	  	{% if error %}
-     	 	<div class="alert alert-warning alert-dismissible" role="alert">{{error}}</div>
+     	 	<div class="alert alert-warning" role="alert">{{error}}</div>
 	    {% endif %}
 	
 		{% with messages = get_flashed_messages() %}
 		  {% if messages %}
 			{% for message in messages %}
-			  <div class="alert alert-warning alert-dismissible" role="alert">
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			  <div class="alert alert-success" role="alert">
 				{{message}}
 			  </div>
 			{% endfor %}
@@ -39,46 +33,57 @@
 	
 		{% block body %}{% endblock %}
 
+		{% if profile %}	
 		<div class="row">
-			<div class=col-sm-8>				
-				<p>
-				Have you ever wanted to put your ToDo list from Mountain Project on your GPS device?  
-				<br />Today's your lucky day!  
-				<br/><br/>
-				Just enter your MP username and download a GPX file of your todo list! Open it in your favorite GPS app like Garmin, Gaia or Google Earth. 
-				</p>
-				<p>
-				No more wandering around looking for your climb! 		
-				</p>		
+			<div class="col-sm-4">
+				<img src="{{profile.avatar}}">
+			</div>
+			<div class="col-sm-4">
+				<ul class="list-group">
+					<li class="list-group-item">{{profile.name}}</li>
+					<li class="list-group-item">Location: {{profile.location}}</li>
+					<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
+					{% if username %}	
+					<li class="list-group-item"><b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX File</a></b></li>		
+					{% endif %}
+				</ul>
 			</div>
 		</div>
-  
-		<div class="form-group">
-			<form action="/" method="POST">
+		
+		{% else %}
+		
+		<p>
+		Have you ever wanted to put your ToDo list from Mountain Project on your GPS device?  
+		</p>
+		<p>
+		Just enter your MP username and download a GPX file of your todo list! Open it in your favorite GPS app like Garmin, Gaia or Google Earth. 
+		</p>
+		<p>
+		No more wandering around looking for your climb! 		
+		</p>		
+		
+		<form-group>
+		<form action="/" method="POST">
 				<input id="username" name="username" type="text" value="MP Username" />
 				<input type="submit" value="Get GPX Data"/>
 			</form>
-		</div>
+		</form-group>
+
+		{% endif %}	
 		  
-		<div class="row">
-			<div class=col-sm-8>				
-				<p>
-				<i>Note: we don't collect your email address or store any data!  </i>
-				</p>
-				<p>
-				&copy;2020 Ridgeline Analytics
-				<br/><a href="https://www.ridgeline-analytics.com">ridgeline-analytics.com<a/>
-				<br/><a href="mailto:matthew.lee@ridgeline-analytics.com">matthew.lee@ridgeline-analytics.com</a>	
-				</p>		
-			</div>
-		</div>
-		</div>
+		<p>
+		<i>Note: we don't collect your email address or store any pesonal data.</i>
+		</p>
+		<p>
+		&copy;2020 Ridgeline Analytics
+		<br/><a href="https://www.ridgeline-analytics.com">ridgeline-analytics.com<a/>
+		<br/><a href="mailto:matthew.lee@ridgeline-analytics.com">matthew.lee@ridgeline-analytics.com</a>	
+		</p>		
+	</div>
 
-
-		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
 
 </body>
-
 </html>
-

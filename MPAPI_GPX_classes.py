@@ -32,8 +32,8 @@ class MPAPI_GPX:
 	#gets a profile
 	def getMP_Profile(self,mp_URL_email):
 		#conditional load of the user profile
-		profile_url = getMP_URL(self.mp_URL_base,'get-user',mp_URL_email)
-		return getMP_API(profile_url)
+		profile_url = self.getMP_URL(self.mp_URL_base,'get-user',mp_URL_email)
+		return self.getMP_API(profile_url)
 
 	#returns a string of XML 
 	def getMP_GPX(self,mp_URL_email):
