@@ -23,7 +23,10 @@ class MPAPI_GPX:
 	#function to return a Python obj from a JSON result via HTTP
 	def getMP_API(self,url):
 		json_str = urllib.request.urlopen(url).read()
-		return json.loads(json_str)
+		if len(json_str) > 0:
+			json_str = json.loads(json_str)
+		
+		return json_str
 	
 	#formatted Mountain Project API URL	
 	def getMP_URL(self,mp_URL_base,mp_command,mp_URL_email):

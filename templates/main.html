@@ -15,10 +15,10 @@
 
 <body>
 	<div class="container">
-		<h1>MP Todo GPX Generator</h1>
+		<h1>Proj Todo GPX Generator</h1>
 	
 	  	{% if error %}
-     	 	<div class="alert alert-warning" role="alert">{{error}}</div>
+     	 	<div class="alert alert-danger" role="alert">{{error}}</div>
 	    {% endif %}
 	
 		{% with messages = get_flashed_messages() %}
@@ -38,13 +38,15 @@
 			<div class="col-sm-4">
 				<img src="{{profile.avatar}}">
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-5">
 				<ul class="list-group">
 					<li class="list-group-item">{{profile.name}}</li>
 					<li class="list-group-item">Location: {{profile.location}}</li>
 					<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
 					{% if username %}	
-					<li class="list-group-item"><b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX File</a></b></li>		
+					<li class="list-group-item">
+						<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>
+					</li>		
 					{% endif %}
 				</ul>
 			</div>
@@ -53,32 +55,37 @@
 		{% else %}
 		
 		<p>
-		Have you ever wanted to put your ToDo list from Mountain Project on your GPS device?  
-		</p>
-		<p>
-		Just enter your MP username and download a GPX file of your todo list! Open it in your favorite GPS app like Garmin, Gaia or Google Earth. 
-		</p>
-		<p>
+		Create a GPX file from your todo list on MountainProject.com.  
+		<br/>
+		You can open the GPX file in Google Earth, Gaia GPS, other GPS apps and devices.		
+		<br />
+		<br />
 		No more wandering around looking for your climb! 		
 		</p>		
 		
 		<form-group>
 		<form action="/" method="POST">
-				<input id="username" name="username" type="text" value="MP Username" />
+				<label for="username">Mountain Project Username (email):</label>
+				<input type="email" class="form-control" id="username" name="username" value="Enter email" />			
 				<input type="submit" value="Get GPX Data"/>
 			</form>
 		</form-group>
 
 		{% endif %}	
+		
+		<hr />
 		  
 		<p>
-		<i>Note: we don't collect your email address or store any pesonal data.</i>
-		</p>
-		<p>
+		<small>
 		&copy;2020 Ridgeline Analytics
 		<br/><a href="https://www.ridgeline-analytics.com">ridgeline-analytics.com<a/>
 		<br/><a href="mailto:matthew.lee@ridgeline-analytics.com">matthew.lee@ridgeline-analytics.com</a>	
+		</small>
 		</p>		
+		<p>
+		<small>We don't collect your email address or store any pesonal data.</small>
+		</p>
+		
 	</div>
 
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
