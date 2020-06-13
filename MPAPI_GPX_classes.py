@@ -37,29 +37,46 @@ class MPAPI_GPX:
 		#conditional load of the user profile
 		profile_url = self.getMP_URL(self.mp_URL_base,'get-user',mp_URL_email)
 		return self.getMP_API(profile_url)
+	
+	#queries the mountainproject to do list API
+	def getToDos(self,mp_URL_email,pos):
+		todos_url = self.getMP_URL(self.mp_URL_base,'get-to-dos',mp_URL_email)
+		todos_url = str.format(todos_url + '&startPos=' + str(pos))
+		return self.getMP_API(todos_url)
 
 	#returns a string of XML 
 	def getMP_GPX(self,mp_URL_email):
-		todos_url = self.getMP_URL(self.mp_URL_base,'get-to-dos',mp_URL_email)
-		mp_todos = self.getMP_API(todos_url)
+		#since the TODO list only gets us 200 records per user, we loop until done.
+		pos = 0
+		
+		#only gets the first 200 todos
+		mp_todos = self.getToDos(mp_URL_email,pos)
 
-		#get routes returns an array of integer route Ids, make a string to pass to MP
-		route_ids = ','.join(str(todo) for todo in mp_todos['toDos'])
-	
 		gpxinstance = gpx.GPX()
 
-		if len(route_ids) > 0:		
-			#return routes for the list of todos 
-			routes_url = self.getMP_URL(self.mp_URL_base,'get-routes',mp_URL_email)
-			routes_url = str.format("{0}&routeIds={1}",routes_url,route_ids)
-			mp_routes = json_str = self.getMP_API(routes_url)
+		#requery the API if we've reached 200 and there's still something returned
+		while (len(mp_todos['toDos']) > 0):
+			
+			if (pos > 0): #requery the API to get each 200 batch
+				mp_todos = self.getToDos(mp_URL_email,pos)
+				
+			#get routes returns an array of integer route Ids, make a string to pass to MP
+			route_ids = ','.join(str(todo) for todo in mp_todos['toDos'])
+			
+			if len(route_ids) > 0:		
+				routes_url = self.getMP_URL(self.mp_URL_base,'get-routes',mp_URL_email)
+				routes_url = str.format("{0}&routeIds={1}",routes_url,route_ids)
+			
+				mp_routes = json_str = self.getMP_API(routes_url)
 
-			for route in mp_routes['routes']:
-				gpxinstance.waypoints.append(
-					gpx.GPXWaypoint(
-						Decimal(str(route['latitude'])), 
-						Decimal(str(route['longitude'])), 
-						name=route['name'] + ' - ' + route['rating'],
-						description=route['url']))
-	
+				for route in mp_routes['routes']:
+					pos += 1
+		
+					gpxinstance.waypoints.append(
+						gpx.GPXWaypoint(
+							Decimal(str(route['latitude'])), 
+							Decimal(str(route['longitude'])), 
+							name=route['name'] + ' - ' + route['rating'],
+							description=route['url']))
+			
 		return gpxinstance.to_xml()
