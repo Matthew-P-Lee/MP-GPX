@@ -51,8 +51,7 @@
 				<ul class="list-group">
 					<li class="list-group-item">{{profile.name}}</li>
 					<li class="list-group-item">Location: {{profile.location}}, {{profile.postalCode}}</li>
-					<li class="list-group-item">Member Since: {{date.strptime(profile.memberSince)|formatdatetime }}</li>
-					{{profile}}
+					<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
 					{% if username %}	
 					<li class="list-group-item">
 						<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>

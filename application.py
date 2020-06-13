@@ -1,5 +1,5 @@
 import json
-import datetime as date
+import datetime
 import http
 import decimal
 import sys
