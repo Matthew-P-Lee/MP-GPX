@@ -47,13 +47,10 @@ class MPAPI_GPX:
 	#returns a string of XML 
 	def getMP_GPX(self,mp_URL_email):
 		#since the TODO list only gets us 200 records per user, we loop until done.
-		pos = 0
-		
-		#only gets the first 200 todos
-		mp_todos = self.getToDos(mp_URL_email,pos)
-
 		gpxinstance = gpx.GPX()
-
+		pos = 0
+		mp_todos = self.getToDos(mp_URL_email,pos)
+	
 		#requery the API if we've reached 200 and there's still something returned
 		while (len(mp_todos['toDos']) > 0):
 			
