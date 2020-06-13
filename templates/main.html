@@ -10,7 +10,16 @@
   <meta name="author" content="Matthew Lee">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169269310-1"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-169269310-1');
+  </script>
+
 </head>
 
 <body>
@@ -41,8 +50,9 @@
 			<div class="col-sm-5">
 				<ul class="list-group">
 					<li class="list-group-item">{{profile.name}}</li>
-					<li class="list-group-item">Location: {{profile.location}}</li>
-					<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
+					<li class="list-group-item">Location: {{profile.location}}, {{profile.postalCode}}</li>
+					<li class="list-group-item">Member Since: {{date.strptime(profile.memberSince)|formatdatetime }}</li>
+					{{profile}}
 					{% if username %}	
 					<li class="list-group-item">
 						<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>

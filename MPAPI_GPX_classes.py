@@ -49,7 +49,7 @@ class MPAPI_GPX:
 		gpxinstance = gpx.GPX()
 
 		if len(route_ids) > 0:		
-			#return routes
+			#return routes for the list of todos 
 			routes_url = self.getMP_URL(self.mp_URL_base,'get-routes',mp_URL_email)
 			routes_url = str.format("{0}&routeIds={1}",routes_url,route_ids)
 			mp_routes = json_str = self.getMP_API(routes_url)
@@ -62,5 +62,4 @@ class MPAPI_GPX:
 						name=route['name'] + ' - ' + route['rating'],
 						description=route['url']))
 	
-
 		return gpxinstance.to_xml()

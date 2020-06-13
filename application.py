@@ -1,4 +1,5 @@
 import json
+import datetime as date
 import http
 import decimal
 import sys
@@ -11,7 +12,6 @@ from werkzeug.exceptions import HTTPException
 
 from MPAPI_GPX_classes import *
 
-
 #use this to return the JSON string to the screen
 def get_JSON(item):
 	return app.response_class(json.dumps(item,cls=DecimalEncoder), content_type='application/json')
@@ -23,14 +23,14 @@ mpapi_gpx = MPAPI_GPX()
 @app.route('/', methods=['GET', 'POST'])
 def show_login():
 	if request.method == 'POST':       
-		try:	
+		try:
 			profile = mpapi_gpx.getMP_Profile(request.form['username'])	
 		except(http.client.InvalidURL) as error:
 			return render_template('main.html',error=error)
 
 		if (profile):
 			flash("Found Profile!")
-			return render_template('main.html', username=request.form['username'],profile=profile)
+			return render_template('main.html',username=request.form['username'],profile=profile)
 		else:
 			return render_template('main.html',error='Profile not found.')	
 	else:
@@ -46,12 +46,19 @@ def download(username):
 	
 @app.errorhandler(404)
 def page_not_found(error):
-	return render_template('main.html')
+	return render_template('main.html',error='Page not found.')
 
 @app.errorhandler(500)
 def catch_all(error):
 	error = "Well that didn't seem to work."
 	return render_template('main.html', error=error)
+
+@app.template_filter('formatdatetime')
+def format_datetime(value, format="%d %b %Y %I:%M %p"):
+    """Format a date time to (Default): d Mon YYYY HH:MM P"""
+    if value is None:
+        return ""
+    return value.strftime(format)
 
 if __name__ == '__main__':
 	app.run()
