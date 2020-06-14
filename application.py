@@ -6,7 +6,6 @@ import sys
 import tempfile
 from flask import *
 
-from io import BytesIO
 from werkzeug.exceptions import default_exceptions
 from werkzeug.exceptions import HTTPException
 
