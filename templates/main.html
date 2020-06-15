@@ -23,11 +23,9 @@
 <body>
 	<div class="container">
 		<h1>GPX Generator</h1>
-	
 	  	{% if error %}
      	 	<div class="alert alert-danger" role="alert">{{error}}</div>
 	    {% endif %}
-	
 		{% with messages = get_flashed_messages() %}
 		  {% if messages %}
 			{% for message in messages %}
@@ -37,28 +35,32 @@
 			{% endfor %}
 		  {% endif %}
 		{% endwith %}
-	
-		{% block body %}{% endblock %}
-
+		
 		{% if profile %}	
-		<div class="row">
-			<div class="col-sm-4">
-				<ul class="list-group">
-					<li class="list-group-item""><img src="{{profile.avatar}}"></li>
-					<li class="list-group-item">{{profile.name}}</li>
-					<li class="list-group-item">Location: {{profile.location}}, {{profile.postalCode}}</li>
-					<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
-					{% if username %}	
-					<li class="list-group-item">
-						<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>
-					</li>		
-					{% endif %}
-				</ul>
-			</div>
-		</div>
-		
+		<div class="card" style="width: 18rem;">
+		 	<div class="card-body">
+    			<h5 class="card-title">{{profile.name}}</h5>
+    			<p class="card-text">
+    				{{profile.personalText}}
+    				{{profile.location}}, {{profile.postalCode}}
+    			
+    			</p>
+			</div>				
+			<ul class="list-group">
+				<li class="list-group-item""><img src="{{profile.avatar}}"></li>
+				<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
+				{% if username %}	
+				<li class="list-group-item">
+					<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>
+				</li>	
+				<li class="list-group-item">
+					<a href="/"><< back<a/>	
+				</li>	
+	
+				{% endif %}
+			</ul>
+		</div>		
 		{% else %}
-		
 		<p>
 		Create a GPX file from your todo list on MountainProject.com.  
 		<br/>
