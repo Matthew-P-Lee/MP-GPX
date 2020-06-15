@@ -1,9 +1,9 @@
 '''
-    File name: MPAPI_GPX_Generator
+    File name: MPAPI_GPX_classes.py
     Author: Matthew Lee - matthew.lee@ridgeline-analytics.com
     Date created: 6/8/2020
     Date last modified: 6/8/2020
-    Python Version: 3
+    Python Version: 3.7
     Description: A script that creates a GPX file from MountainProject todo lists.
 '''
 
@@ -46,7 +46,6 @@ class MPAPI_GPX:
 
 	#returns a string of XML 
 	def getMP_GPX(self,mp_URL_email):
-		#since the TODO list only gets us 200 records per user, we loop until done.
 		gpxinstance = gpx.GPX()
 		pos = 0
 		mp_todos = self.getToDos(mp_URL_email,pos)

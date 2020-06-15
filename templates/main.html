@@ -43,10 +43,8 @@
 		{% if profile %}	
 		<div class="row">
 			<div class="col-sm-4">
-				<img src="{{profile.avatar}}">
-			</div>
-			<div class="col-sm-5">
 				<ul class="list-group">
+					<li class="list-group-item""><img src="{{profile.avatar}}"></li>
 					<li class="list-group-item">{{profile.name}}</li>
 					<li class="list-group-item">Location: {{profile.location}}, {{profile.postalCode}}</li>
 					<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
