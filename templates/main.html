@@ -22,7 +22,19 @@
 
 <body>
 	<div class="container">
-		<h1>GPX Generator</h1>
+		<div class="row">
+			<div class="col-sm-1">
+				<a href="/">
+				<img width="50px" src="{{url_for('static',filename='ridgeline-logo.jpg')}}" />
+				</a>
+			</div>
+			<div class="col">
+			<a href="/">
+			<h1>GPX Generator</h1>
+			</a>
+			</div>
+		</div>
+		
 	  	{% if error %}
      	 	<div class="alert alert-danger" role="alert">{{error}}</div>
 	    {% endif %}
@@ -53,9 +65,10 @@
 				<li class="list-group-item">
 					<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>
 				</li>	
-				<li class="list-group-item">
+
+				<div class="card-footer text-muted">
 					<a href="/"><< back<a/>	
-				</li>	
+				</div>
 	
 				{% endif %}
 			</ul>
