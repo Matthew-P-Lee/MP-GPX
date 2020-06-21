@@ -38,7 +38,7 @@ def check_api_throttle(increment):
 	if increment > 0:
 		result = result + increment
 			
-	client.set('daily_requests',result, expire=86400)
+	client.set('daily_requests',result, expire=30)
 	
 	if result >=API_LIMIT:
 		is_throttled = 1
