@@ -26,7 +26,7 @@ def check_api_throttle(increment):
 	is_throttled = 0
 	API_LIMIT=50
 	
-	client = Client(('localhost', 11211))
+	client = Client(('gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com', 11211))
 	
 	result = client.get('daily_requests')
 		
