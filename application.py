@@ -29,7 +29,6 @@ def check_api_throttle(increment):
 	client = Client(('localhost', 11211))
 	
 	result = client.get('daily_requests')
-	print("Cache returned",result)
 		
 	if (result):
 		result = int(result)	
