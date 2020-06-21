@@ -24,7 +24,7 @@ mpapi_gpx = MPAPI_GPX()
 #avoids exceeding the API limit for MP's API
 def check_api_throttle(increment):
 	is_throttled = 0
-	API_LIMIT=5
+	API_LIMIT=500
 	
 	client = Client(('gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com', 11211))
 	
@@ -38,7 +38,7 @@ def check_api_throttle(increment):
 	if increment > 0:
 		result = result + increment
 			
-	client.set('daily_requests',result, expire=30)
+	client.set('daily_requests',result, expire=86400)
 	
 	if result >=API_LIMIT:
 		is_throttled = 1
@@ -64,7 +64,7 @@ def show_login():
 			return render_template('main.html',error='Profile not found.')	
 	else:
 		if is_throttled:
-			error = "API limit reached for the day.  Try again later."
+			error = "API limit reached for a while.  Try again later."
 			
 		return render_template('main.html', error=error)
 		
