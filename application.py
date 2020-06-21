@@ -18,8 +18,8 @@ app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
 mpapi_gpx = MPAPI_GPX()
 
 API_LIMIT=250
-#CACHE_CLIENT_ENDPOINT = 'localhost'
-CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
+CACHE_CLIENT_ENDPOINT = 'localhost'
+#CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
 CACHE_PORT = 11211
 CACHE_EXPIRE = 10800
 

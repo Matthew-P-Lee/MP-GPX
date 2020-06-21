@@ -20,7 +20,7 @@ class MPAPI_GPX:
 	def __init__(self):
 		return
 		
-	#function to return a Python obj from a JSON result via HTTP
+	#return a Python obj from a JSON HTTP response
 	def getMP_API(self,url):
 		json_str = urllib.request.urlopen(url).read()
 		if len(json_str) > 0:
@@ -43,27 +43,30 @@ class MPAPI_GPX:
 		todos_url = self.getMP_URL(self.mp_URL_base,'get-to-dos',mp_URL_email)
 		todos_url = str.format(todos_url + '&startPos=' + str(pos))
 		return self.getMP_API(todos_url)
+	
+	#gets a list of routes from a list of route ids	
+	def getRoutes(self,mp_URL_email,route_ids):
+		routes_url = self.getMP_URL(self.mp_URL_base,'get-routes',mp_URL_email)
+		routes_url = str.format("{0}&routeIds={1}",routes_url,route_ids)
+		return self.getMP_API(routes_url)
 
 	#returns a string of XML 
 	def getMP_GPX(self,mp_URL_email):
-		gpxinstance = gpx.GPX()
 		pos = 0
+		gpxinstance = gpx.GPX()
 		mp_todos = self.getToDos(mp_URL_email,pos)
 	
 		#requery the API if we've reached 200 and there's still something returned
 		while (len(mp_todos['toDos']) > 0):
 			
-			if (pos > 0): #requery the API to get each 200 batch
+			if (pos > 0): #requery the API to get next 200 batch
 				mp_todos = self.getToDos(mp_URL_email,pos)
 				
-			#get routes returns an array of integer route Ids, make a string to pass to MP
+			#get routes returns an array of integer route ids, make a string to pass to MP
 			route_ids = ','.join(str(todo) for todo in mp_todos['toDos'])
 			
 			if len(route_ids) > 0:		
-				routes_url = self.getMP_URL(self.mp_URL_base,'get-routes',mp_URL_email)
-				routes_url = str.format("{0}&routeIds={1}",routes_url,route_ids)
-			
-				mp_routes = json_str = self.getMP_API(routes_url)
+				mp_routes = self.getRoutes(mp_URL_email,route_ids)
 
 				for route in mp_routes['routes']:
 					pos += 1
