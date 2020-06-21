@@ -27,6 +27,8 @@ MSG_API_EXCEEDED = 'The MountainProject API limit has been reached. Try again la
 MSG_PROFILE_NOT_FOUND = 'MountainProject Profile not found.'
 MSG_404 = 'Page not found.'
 MSG_500 = 'Well that didn\'t seem to work.'
+MSG_INVALID_API_URL = 'The API call failed.'
+
 GPX_FILENAME = 'todos.gpx'
 
 #helper to return a JSON object as an HTTP response
@@ -74,18 +76,18 @@ def show_form():
 			profile = mpapi_gpx.getMP_Profile(request.form['username'])	
 			set_api_throttle()
 		except(http.client.InvalidURL) as error:
-			return render_template('main.html',error=error)
+			error=MSG_INVALID_API_URL
 			
 		if (profile):	
 			flash("Found Profile!")
 			return render_template('main.html',username=request.form['username'],profile=profile)
 		else:
-			return render_template('main.html',error=MSG_PROFILE_NOT_FOUND)	
+			error=MSG_PROFILE_NOT_FOUND		
 	else:
 		if is_throttled:
 			error=MSG_API_EXCEEDED
 			
-		return render_template('main.html', error=error)
+	return render_template('main.html', error=error)
 		
 @app.route('/downloads/<string:username>', methods=['GET', 'POST'])
 def download(username):
