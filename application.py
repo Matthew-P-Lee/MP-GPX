@@ -12,10 +12,6 @@ from pymemcache.client.base import Client
 
 from MPAPI_GPX_classes import *
 
-#use this to return the JSON string to the screen
-def get_JSON(item):
-	return app.response_class(json.dumps(item,cls=DecimalEncoder), content_type='application/json')
-
 app = Flask(__name__)
 app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
 
@@ -25,9 +21,19 @@ API_LIMIT=250
 #CACHE_CLIENT_ENDPOINT = 'localhost'
 CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
 CACHE_PORT = 11211
-CACH_EXPIRE = 10800
+CACHE_EXPIRE = 10800
 
-#adds one to the API request count and returns the current count
+MSG_API_EXCEEDED = 'The MountainProject API limit has been reached. Try again later.'
+MSG_PROFILE_NOT_FOUND = 'MountainProject Profile not found.'
+MSG_404 = 'Page not found.'
+MSG_500 = 'Well that didn\'t seem to work.'
+GPX_FILENAME = 'todos.gpx'
+
+#helper to return a JSON object as an HTTP response
+def get_JSON(item):
+	return app.response_class(json.dumps(item,cls=DecimalEncoder), content_type='application/json')
+
+#Increments the API request count, stores it in cache and returns the current count
 def set_api_throttle():
 	
 	client = Client((CACHE_CLIENT_ENDPOINT, CACHE_PORT))	
@@ -38,7 +44,7 @@ def set_api_throttle():
 	else:
 		result = 1
 			
-	client.set('daily_requests',result, expire=CACH_EXPIRE)
+	client.set('daily_requests',result, expire=CACHE_EXPIRE)
 	
 	return result
 
@@ -52,14 +58,14 @@ def get_api_throttle():
 			
 	if (result):
 		result = int(result)
-		print(result)
 		if (result >= API_LIMIT):
 			is_throttled = 1
 		
 	return is_throttled
 		
+#main screen
 @app.route('/', methods=['GET', 'POST'])
-def show_login():
+def show_form():
 	error = None
 	is_throttled = get_api_throttle() 
 	
@@ -74,29 +80,32 @@ def show_login():
 			flash("Found Profile!")
 			return render_template('main.html',username=request.form['username'],profile=profile)
 		else:
-			return render_template('main.html',error='Profile not found.')	
+			return render_template('main.html',error=MSG_PROFILE_NOT_FOUND)	
 	else:
 		if is_throttled:
-			error = "The MountainProject API limit has been reached. Try again later."
+			error=MSG_API_EXCEEDED
 			
 		return render_template('main.html', error=error)
 		
 @app.route('/downloads/<string:username>', methods=['GET', 'POST'])
 def download(username):
-	output = mpapi_gpx.getMP_GPX(username)
-	set_api_throttle() 
-	resp = make_response(output)
-	resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
-	resp.headers['Content-Disposition'] = 'attachment;filename=todos.gpx'
-	return resp
+	if get_api_throttle() == 0:		
+		output = mpapi_gpx.getMP_GPX(username)
+		set_api_throttle() 
+		resp = make_response(output)
+		resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
+		resp.headers['Content-Disposition'] = 'attachment;filename=' + GPX_FILENAME
+		return resp
+	else:
+		return render_template('main.html', error=MSG_API_EXCEEDED)
 	
 @app.errorhandler(404)
 def page_not_found(error):
-	return render_template('main.html',error='Page not found.')
+	return render_template('main.html',error=MSG_404)
 
 @app.errorhandler(500)
 def catch_all(error):
-	return render_template('main.html', error='Well that didn\'t seem to work.\n\n' + error)
+	return render_template('main.html', error=MSG_500 + '\n\n' + error)
 
 @app.template_filter('formatdatetime')
 def format_datetime(value, format="%d %b %Y %I:%M %p"):
