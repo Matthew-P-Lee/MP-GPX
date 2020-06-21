@@ -4,10 +4,11 @@ import http
 import decimal
 import sys
 import tempfile
-from flask import *
 
+from flask import *
 from werkzeug.exceptions import default_exceptions
 from werkzeug.exceptions import HTTPException
+from pymemcache.client.base import Client
 
 from MPAPI_GPX_classes import *
 
@@ -17,27 +18,61 @@ def get_JSON(item):
 
 app = Flask(__name__)
 app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
+
 mpapi_gpx = MPAPI_GPX()
 
+#avoids exceeding the API limit for MP's API
+def check_api_throttle(increment):
+	is_throttled = 0
+	API_LIMIT=50
+	
+	client = Client(('localhost', 11211))
+	
+	result = client.get('daily_requests')
+	print("Cache returned",result)
+		
+	if (result):
+		result = int(result)	
+	else:
+		result = 1
+
+	if increment > 0:
+		result = result + increment
+			
+	client.set('daily_requests',result, expire=86400)
+	
+	if result >=API_LIMIT:
+		is_throttled = 1
+		
+	return is_throttled
+		
 @app.route('/', methods=['GET', 'POST'])
 def show_login():
-	if request.method == 'POST':       
+	error = None
+	is_throttled = check_api_throttle(0) 
+	
+	if request.method == 'POST' and is_throttled == 0:       
 		try:
 			profile = mpapi_gpx.getMP_Profile(request.form['username'])	
+			check_api_throttle(1) 
 		except(http.client.InvalidURL) as error:
 			return render_template('main.html',error=error)
-
-		if (profile):
+			
+		if (profile):	
 			flash("Found Profile!")
 			return render_template('main.html',username=request.form['username'],profile=profile)
 		else:
 			return render_template('main.html',error='Profile not found.')	
 	else:
-		return render_template('main.html')
-
+		if is_throttled:
+			error = "API limit reached for the day.  Try again later."
+			
+		return render_template('main.html', error=error)
+		
 @app.route('/downloads/<string:username>', methods=['GET', 'POST'])
 def download(username):
 	output = mpapi_gpx.getMP_GPX(username)
+	check_api_throttle(1) 
 	resp = make_response(output)
 	resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
 	resp.headers['Content-Disposition'] = 'attachment;filename=todos.gpx'
