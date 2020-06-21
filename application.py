@@ -96,7 +96,7 @@ def page_not_found(error):
 
 @app.errorhandler(500)
 def catch_all(error):
-	return render_template('main.html', error='Well that didn\'t seem to work.')
+	return render_template('main.html', error='Well that didn\'t seem to work.\n\n' + error)
 
 @app.template_filter('formatdatetime')
 def format_datetime(value, format="%d %b %Y %I:%M %p"):
