@@ -28,6 +28,7 @@ MSG_PROFILE_NOT_FOUND = 'MountainProject Profile not found.'
 MSG_404 = 'Page not found.'
 MSG_500 = 'Well that didn\'t seem to work.'
 MSG_INVALID_API_URL = 'The API call failed.'
+MSG_PROFILE_FOUND = 'Found profile!'
 
 GPX_FILENAME = 'todos.gpx'
 
@@ -79,7 +80,7 @@ def show_form():
 			error=MSG_INVALID_API_URL
 			
 		if (profile):	
-			flash("Found Profile!")
+			flash(MSG_PROFILE_FOUND)
 			return render_template('main.html',username=request.form['username'],profile=profile)
 		else:
 			error=MSG_PROFILE_NOT_FOUND		
