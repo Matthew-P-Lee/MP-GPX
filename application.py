@@ -22,9 +22,10 @@ app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
 mpapi_gpx = MPAPI_GPX()
 
 API_LIMIT=250
-CACHE_CLIENT_ENDPOINT = 'localhost'
-#CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
+#CACHE_CLIENT_ENDPOINT = 'localhost'
+CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
 CACHE_PORT = 11211
+CACH_EXPIRE = 10800
 
 #adds one to the API request count and returns the current count
 def set_api_throttle():
@@ -37,7 +38,7 @@ def set_api_throttle():
 	else:
 		result = 1
 			
-	client.set('daily_requests',result, expire=10800)
+	client.set('daily_requests',result, expire=CACH_EXPIRE)
 	
 	return result
 
