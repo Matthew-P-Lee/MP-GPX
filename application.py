@@ -23,8 +23,8 @@ CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
 CACHE_PORT = 11211
 CACHE_EXPIRE = 10800
 
-MSG_API_EXCEEDED = 'The MountainProject API limit has been reached. Try again later.'
-MSG_PROFILE_NOT_FOUND = 'MountainProject Profile not found.'
+MSG_API_EXCEEDED = 'The API limit has been reached. Try again later.'
+MSG_PROFILE_NOT_FOUND = 'Profile not found.'
 MSG_404 = 'Page not found.'
 MSG_500 = 'Well that didn\'t seem to work.'
 MSG_INVALID_API_URL = 'The API call failed.'
