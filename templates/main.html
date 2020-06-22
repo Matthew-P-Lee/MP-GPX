@@ -50,13 +50,12 @@
     		<p class="card-text">
     			{{profile.personalText}}
     			{{profile.location}}, {{profile.postalCode}}
+				{{profile.memberSince}}
     		</p>
-		</div>
-		
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
+		</div>		
 			
-			{% if username %}	
+		{% if username %}	
+		<ul class="list-group list-group-flush">
 			<li class="list-group-item">
 				<b><a class="btn btn-primary" href="{{url_for('.download',username=username)}}">Download GPX Data</a></b>
 			</li>	
@@ -73,10 +72,8 @@
 			<li class="list-group-item">	
 				<small><a href="/"><< back<a/></small>
 			</li>	
-			{% endif %}
-		
 		</ul>
-		
+		{% endif %}		
 		
 		{% else %}
 		
