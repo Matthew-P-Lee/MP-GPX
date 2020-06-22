@@ -7,27 +7,19 @@
  
   <meta name="description" content="MP Todo GPX Generator lets you generate a GPX file from your todo list." />
   <meta name="author" content="Matthew Lee">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169269310-1"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-169269310-1');
-  </script>
 </head>
 
 <body>
 	<div class="container">
-	<div class="card w-45 border-primary mb-3" style="width: 25rem;">
+	<div class="card w-45 border-primary mb-3" style="width: 22rem;">
 		<div class="card-header">
 			<div class="row">
-				<div class="col-sm-2">
-					<a href= "/"><img width="50px" src="{{url_for('static',filename='ridgeline-logo.png')}}" /></a>
+				<div class="col-2">
+					<a href= "/"><img width="30px" src="{{url_for('static',filename='ridgeline-logo.png')}}" /></a>
 				</div>
-				<div class="col">
+				<div class="col-">
 					<a href="/"><h4>GPX Generator</h4></a>
 				</div>
 			</div>		
@@ -51,6 +43,10 @@
 		
 		{% if profile %}	
 		
+		{% if profile.avatar %}
+		<img class="card-img-top" src="{{profile.avatar}}" />
+		{% endif %}
+			
 		<h5 class="card-title">{{profile.name}}</h5>
     	<p class="card-text">
     		{{profile.personalText}}
@@ -58,7 +54,6 @@
     	</p>
 		
 		<ul class="list-group">
-			<li class="list-group-item""><img src="{{profile.avatar}}"></li>
 			<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
 			
 			{% if username %}	
@@ -107,7 +102,7 @@
 		<div class="form-group">	
 			<label for="username">Enter your Mountain Project username:</label>	
 			<input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp" placeholder="Enter username" required />
-   		 	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+   		 	<small id="emailHelp" class="form-text text-muted">We don't store or share your email.</small>
 		</div>
 			<button type="submit" class="btn btn-primary" value="Get GPX Data">Get GPX Data</button>
 		</form>

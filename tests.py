@@ -17,11 +17,16 @@ class TestMPAPI_GPX(unittest.TestCase):
 		todos = MPAPI_GPX().getToDos(self.MP_USER,0)
 		#print(todos)
 		self.assertTrue(todos)
+		
+	def test_GetEmptyTodos(self):
+		todos = MPAPI_GPX().getToDos('a@a.com',0)
+		self.assertFalse(todos)
 
 	def test_GetRoutes(self):
 		routes = MPAPI_GPX().getRoutes(self.MP_USER,self.MP_TEST_ROUTE_ID)
 		#print(routes)
 		self.assertTrue(routes)
 
+	
 if __name__ == '__main__':
     unittest.main()
