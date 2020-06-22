@@ -48,9 +48,8 @@
 		<div class="card-body">
 			<h5 class="card-title">{{profile.name}}</h5>
     		<p class="card-text">
-    			{{profile.location}}, {{profile.postalCode}}<br />
-				{{profile.memberSince}}
-    		</p>
+    			{{profile.location}},{{profile.postalCode}}
+			</p>
 		</div>		
 			
 		{% if username %}	
@@ -93,7 +92,6 @@
 		<br />
 		<a href="{{url_for('static',filename='example2.png')}}">Indian Cove, Joshua Tree CA</a>
 		</p>
-
 		
 		<form action="/" method="POST">
 			<div class="form-group">	
