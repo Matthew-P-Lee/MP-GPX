@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,7 +7,7 @@
  
   <meta name="description" content="MP Todo GPX Generator lets you generate a GPX file from your todo list on Mountain Project." />
   <meta name="author" content="Matthew Lee">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169269310-1"></script>
@@ -22,22 +21,24 @@
 
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-1">
-				<a href="/">
-				<img width="50px" src="{{url_for('static',filename='ridgeline-logo.jpg')}}" />
-				</a>
-			</div>
-			<div class="col">
-			<a href="/">
-			<h1>GPX Generator</h1>
-			</a>
-			</div>
+	<div class="card w-45 border-primary mb-3" style="width: 25rem;">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-sm-2">
+					<a href= "/"><img width="50px" src="{{url_for('static',filename='ridgeline-logo.png')}}" /></a>
+				</div>
+				<div class="col">
+					<a href="/"><h4>MountainProject GPX Generator</h4></a>
+				</div>
+			</div>		
 		</div>
+			
+		<div class="card-body"> 	
 		
 	  	{% if error %}
-     	 	<div class="alert alert-danger" role="alert">{{error}}</div>
+     	<div class="alert alert-danger" role="alert">{{error}}</div>
 	    {% endif %}
+		
 		{% with messages = get_flashed_messages() %}
 		  {% if messages %}
 			{% for message in messages %}
@@ -49,80 +50,88 @@
 		{% endwith %}
 		
 		{% if profile %}	
-		<div class="card" style="width: 18rem;">
-		 	<div class="card-body">
-    			<h5 class="card-title">{{profile.name}}</h5>
-    			<p class="card-text">
-    				{{profile.personalText}}
-    				{{profile.location}}, {{profile.postalCode}}
-    			
-    			</p>
-			</div>				
-			<ul class="list-group">
-				<li class="list-group-item""><img src="{{profile.avatar}}"></li>
-				<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
-				{% if username %}	
-				<li class="list-group-item">
-					<b><a href="{{url_for('.download',username=username)}}">Click here to download your GPX Data  - (todos.gpx)</a></b>
-				</li>	
-				<li class="list-group-item">
-					<small>
-					<a href="https://help.gaiagps.com/hc/en-us/articles/115003639048-Import-GPX-and-KML-files-into-the-iOS-app">Importing GPX Files in Gaia GPS</a>
-					</small>
-				</li>	
-				<li class="list-group-item">
-					<small>
-					<a href="https://support.google.com/earth/answer/148095?hl=en">Import GPS Data into Google Earth</a>
-					</small>
-				</li>
-				<div class="card-footer text-muted">
-					<small>
-					<a href="/"><< back<a/>	
-					</small>
-				</div>
-	
-				{% endif %}
-			</ul>
-		</div>		
-		{% else %}
-		<p>
-		Create a GPX file from your todo list on MountainProject.com.  
-		<br/>
-		You can open the GPX file in Google Earth, Gaia GPS, other GPS apps and devices.		
-		<br />
-		<br />
-		No more wandering around looking for your climb! 		
-		</p>		
 		
-		<form-group>
-		<form action="/" method="POST">
-				<label for="username">Mountain Project Username (email):</label>
-				<input type="email" class="form-control" id="username" name="username" value="Enter email" />			
-				<input type="submit" class="btn btn-primary" value="Get GPX Data"/>
-			</form>
-		</form-group>
+		<h5 class="card-title">{{profile.name}}</h5>
+    	<p class="card-text">
+    		{{profile.personalText}}
+    		{{profile.location}}, {{profile.postalCode}}
+    	</p>
+		
+		<ul class="list-group">
+			<li class="list-group-item""><img src="{{profile.avatar}}"></li>
+			<li class="list-group-item">Member Since: {{profile.memberSince}}</li>
+			
+			{% if username %}	
+			<li class="list-group-item">
+				<b><a class="btn btn-primary" href="{{url_for('.download',username=username)}}">Download GPX Data</a></b>
+			</li>	
+			<li class="list-group-item">
+				<small>
+				<a href="https://help.gaiagps.com/hc/en-us/articles/115003639048-Import-GPX-and-KML-files-into-the-iOS-app">Importing GPX Files in Gaia GPS</a>
+				</small>
+			</li>	
+			<li class="list-group-item">
+				<small>
+				<a href="https://support.google.com/earth/answer/148095?hl=en">Import GPS Data into Google Earth</a>
+				</small>
+			</li>		
+			<li class="list-group-item">	
+				<small><a href="/"><< back<a/></small>
+			</li>	
+			{% endif %}
+		
+		</ul>
+		
+		
+		{% else %}
+				
+		<h5 class="card-title">
+		Create a GPX file from your saved routes on MountainProject.com.
+		</h5>
+		
+		<p class="card-text">
+		This app uses your todo list to generate a GPX file which can be imported into your 
+		favorite GPS app, device, or Google Earth.   
+		</p>
 
+		<p class="card-text">
+		Examples:<br />
+		<a href="{{url_for('static',filename='example1.png')}}">Red Rocks, Las Vegas NV</a>
+		<br />
+		<a href="{{url_for('static',filename='example2.png')}}">Indian Cove, Joshua Tree CA</a>
+		</p>
+
+
+		
+		<form action="/" method="POST">
+		<div class="form-group">	
+			<label for="username">Enter your Mountain Project username:</label>	
+			<input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp" placeholder="Enter username" required />
+   		 	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		</div>
+			<button type="submit" class="btn btn-primary" value="Get GPX Data">Get GPX Data</button>
+		</form>
+		
 		{% endif %}	
 		
-		<hr />
-		  
-		<p>
-		<small>
-		&copy;2020 Ridgeline Analytics
-		<br/><a href="https://www.ridgeline-analytics.com">ridgeline-analytics.com<a/>
-		<br/><a href="mailto:matthew.lee@ridgeline-analytics.com">matthew.lee@ridgeline-analytics.com</a>
-		<br><a href="https://github.com/Sassberto/MP-GPX/">Get the source for this app on Github</a>	
-		</small>
-		</p>		
-		<p>
-		<small>We don't collect your email address or store any pesonal data.</small>
-		</p>
+		</div> <!-- .card-body -->
+			
+		<div class="card-footer text-muted">
+			<p>
+			<small>
+			&copy;2020 Ridgeline Analytics
+			<br/><a href="https://www.ridgeline-analytics.com">ridgeline-analytics.com<a/>
+			<br/><a href="mailto:matthew.lee@ridgeline-analytics.com">matthew.lee@ridgeline-analytics.com</a>
+			<br><a href="https://github.com/Sassberto/MP-GPX/">Get the source for this app on Github</a>	
+			</small>
+			</p>		
+		</div>
 		
 	</div>
-
+	</div>
+	
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
-
+	
 </body>
 </html>
