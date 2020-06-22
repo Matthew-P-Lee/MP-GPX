@@ -26,7 +26,6 @@ class TestMPAPI_GPX(unittest.TestCase):
 		routes = MPAPI_GPX().getRoutes(self.MP_USER,self.MP_TEST_ROUTE_ID)
 		#print(routes)
 		self.assertTrue(routes)
-
 	
 if __name__ == '__main__':
     unittest.main()

@@ -29,7 +29,6 @@ MSG_404 = 'Page not found.'
 MSG_500 = 'Well that didn\'t seem to work.'
 MSG_INVALID_API_URL = 'The API call failed.'
 MSG_PROFILE_FOUND = 'Found profile!'
-
 GPX_FILENAME = 'todos.gpx'
 
 #helper to return a JSON object as an HTTP response
