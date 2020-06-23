@@ -18,7 +18,7 @@ app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
 mpapi_gpx = MPAPI_GPX()
 
 API_LIMIT=50
-#CACHE_CLIENT_ENDPOINT = 'localhost'
+#CACHE_CLIENT_ENDPOINT = 'localhot'
 CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
 CACHE_PORT = 11211
 CACHE_EXPIRE = 10800
@@ -107,7 +107,7 @@ def page_not_found(error):
 
 @app.errorhandler(500)
 def catch_all(error):
-	return render_template('main.html', error=MSG_500 + '\n\n' + error)
+	return render_template('main.html', error=MSG_500)
 
 @app.template_filter('formatdatetime')
 def format_datetime(value, format="%d %b %Y %I:%M %p"):
