@@ -10,16 +10,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
   <link rel="icon" type="image/ico" href="{{url_for('static',filename='favicon.ico') }}" />
-
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> 
 </head>
 
 <body>
 	<div class="container mt-md-3">
-	<div class="card border-primary mb-3" style="width: 22rem;">
+	<div class="card border-primary mb-4" style="width: 23rem;">
 		<div class="card-header">
 			<div class="row">
 				<div class="col-3">
-					<a href= "/"><img width="30px" src="{{url_for('static',filename='ridgeline-logo.png')}}" /></a>
+					<a href= "/"><img width="35px" src="{{url_for('static',filename='ridgeline-logo.png')}}" /></a>
 				</div>
 				<div class="col-">
 					<a href="/"><h4>GPX Generator</h4></a>
