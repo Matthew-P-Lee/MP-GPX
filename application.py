@@ -36,7 +36,9 @@ GPX_FILENAME = 'todos.gpx'
 
 #helper to return a JSON object as an HTTP response
 def get_JSON(item):
-	return app.response_class(json.dumps(item,cls=DecimalEncoder), content_type='application/json')
+	return app.response_class(
+		json.dumps(item,cls=DecimalEncoder), 
+		content_type='application/json')
 
 #Increments the API request count, stores it in cache and returns the current count
 def set_api_throttle():
@@ -83,7 +85,10 @@ def show_form():
 			
 		if (profile):	
 			flash(MSG_PROFILE_FOUND)
-			return render_template('main.html',username=request.form['username'],profile=profile)
+			return render_template(
+				'main.html',
+				username=request.form['username'],
+				profile=profile)
 		else:
 			error=MSG_PROFILE_NOT_FOUND		
 	else:
