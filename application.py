@@ -3,7 +3,6 @@ import datetime
 import http
 import decimal
 import sys
-import tempfile
 
 from flask import *
 from werkzeug.exceptions import default_exceptions
@@ -17,7 +16,7 @@ app.secret_key = b'_5#ydhhL"F4Qewaxec]/'
 
 mpapi_gpx = MPAPI_GPX()
 
-API_LIMIT=50
+API_LIMIT=500
 CACHE_CLIENT_ENDPOINT = 'gpx-cache.r6bmze.cfg.use2.cache.amazonaws.com'
 
 if app.env == 'development':
@@ -88,7 +87,7 @@ def show_form():
 			return render_template(
 				'main.html',
 				username=request.form['username'],
-				profile=profile)
+				profile=profile,lat=request.form['lat'],lng=request.form['lng'])
 		else:
 			error=MSG_PROFILE_NOT_FOUND		
 	else:
@@ -97,7 +96,7 @@ def show_form():
 			
 	return render_template('main.html', error=error)
 		
-@app.route('/downloads/<string:username>', methods=['GET', 'POST'])
+@app.route('/download/<string:username>', methods=['GET', 'POST'])
 def download(username):
 	if get_api_throttle() == 0:		
 		output = mpapi_gpx.getMP_GPX(username)
@@ -108,6 +107,18 @@ def download(username):
 		return resp
 	else:
 		return render_template('main.html', error=MSG_API_EXCEEDED)
+
+@app.route('/location/<string:username>', methods=['GET'])	
+def location(username):	
+	if get_api_throttle() == 0:		
+		output = mpapi_gpx.getMP_GPX_location(username,request.args['lat'],request.args['lng'])
+		set_api_throttle() 
+		resp = make_response(output)
+		resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
+		resp.headers['Content-Disposition'] = 'attachment;filename=' + 'location.gpx'
+		return resp
+	else:
+		return render_template('main.html', error=MSG_API_EXCEEDED)
 	
 @app.errorhandler(404)
 def page_not_found(error):
@@ -115,7 +126,7 @@ def page_not_found(error):
 
 @app.errorhandler(500)
 def catch_all(error):
-	return render_template('main.html', error=MSG_500)
+	return render_template('main.html',error=MSG_500)
 
 @app.template_filter('formatdatetime')
 def format_datetime(value, format="%d %b %Y %I:%M %p"):

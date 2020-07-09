@@ -13,7 +13,7 @@
   <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> 
 </head>
 
-<body>
+<body onload=getLocation()>
 	<div class="container mt-md-3">
 	<div class="card border-primary mb-4" style="width: 23rem;">
 		<div class="card-header">
@@ -57,18 +57,25 @@
 		{% if username %}	
 		<ul class="list-group list-group-flush">
 			<li class="list-group-item">
-				<b><a class="btn btn-primary" href="{{url_for('.download',username=username)}}">Download GPX Data</a></b>
+				<b><a class="btn btn-primary" href="{{url_for('.download',username=username)}}">Download GPX</a></b>
 			</li>	
+			
+			<li class="list-group-item">
+				<a id="location" class="btn btn-primary" href="{{url_for('.location',username=username,lat=lat,lng=lng)}}" value="Get GPX For Nearby Routes">Get GPX for Nearby Climbs</a>
+			</li>	
+
 			<li class="list-group-item">
 				<small>
 				<a href="https://help.gaiagps.com/hc/en-us/articles/115003639048-Import-GPX-and-KML-files-into-the-iOS-app">Importing GPX Files in Gaia GPS</a>
 				</small>
 			</li>	
+			
 			<li class="list-group-item">
 				<small>
 				<a href="https://support.google.com/earth/answer/148095?hl=en">Import GPS Data into Google Earth</a>
 				</small>
 			</li>		
+			
 			<li class="list-group-item">	
 				<small><a href="/"><< back<a/></small>
 			</li>	
@@ -84,7 +91,7 @@
 		</h5>
 		
 		<p class="card-text">
-		This app uses your todo list to generate a GPX file which can be imported into your 
+		This app uses your mountainproject todo list to generate a GPX file which can be imported into your 
 		favorite GPS app, device, or Google Earth.   
 		</p>
 
@@ -100,8 +107,10 @@
 			<label for="username">Enter your Mountain Project username:</label>	
 			<input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp" placeholder="Enter username" required />
    		 	<small id="emailHelp" class="form-text text-muted">We don't store or share your email.</small>
-		</div>
-			<button type="submit" class="btn btn-primary" value="Get GPX Data">Get GPX Data</button>
+			<input type="hidden" id="lat" name="lat"/>
+			<input type="hidden" id="lng" name="lng"/>
+			</div>
+			<button type="submit" class="btn btn-primary" value="Get GPX Todo List Data">Get GPX Todo List Data</button>
 		</form>
 
 		</div>
@@ -124,6 +133,7 @@
 	
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
 	
 </body>
 </html>
