@@ -5,7 +5,7 @@
 
   <title>GPX Generator by Ridgeline Analytics</title>
  
-  <meta name="description" content="MP Todo GPX Generator lets you generate a GPX file from your todo list." />
+  <meta name="description" content="GPX Generator for Mountain Project data." />
   <meta name="author" content="Matthew Lee">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
@@ -13,7 +13,7 @@
   <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> 
 </head>
 
-<body onload=getLocation()>
+<body>
 	<div class="container mt-md-3">
 	<div class="card border-primary mb-4" style="width: 23rem;">
 		<div class="card-header">
@@ -57,13 +57,12 @@
 		{% if username %}	
 		<ul class="list-group list-group-flush">
 			<li class="list-group-item">
-				<b><a class="btn btn-primary" href="{{url_for('.download',username=username)}}">Download GPX</a></b>
+				<small>Get climbs from your todo list</small>
+
+				<b><a class="btn btn-primary" href="{{url_for('.download',username=username)}}">Download GPX file</a></b>
 			</li>	
 			
-			<li class="list-group-item">
-				<a id="location" class="btn btn-primary" href="{{url_for('.location',username=username,lat=lat,lng=lng)}}" value="Get GPX For Nearby Routes">Get GPX for Nearby Climbs</a>
-			</li>	
-
+	
 			<li class="list-group-item">
 				<small>
 				<a href="https://help.gaiagps.com/hc/en-us/articles/115003639048-Import-GPX-and-KML-files-into-the-iOS-app">Importing GPX Files in Gaia GPS</a>
@@ -87,11 +86,11 @@
 		<div class="card-body"> 	
 		
 		<h5 class="card-title">
-		Create a GPX file from your saved routes on MP.
+		Create GPX files from <a href="https://www.mountainproject.com/data">Mountain Project's data API</a>.
 		</h5>
 		
 		<p class="card-text">
-		This app uses your mountainproject todo list to generate a GPX file which can be imported into your 
+		Download a GPX file which can be imported into your 
 		favorite GPS app, device, or Google Earth.   
 		</p>
 
@@ -102,17 +101,100 @@
 		<a href="{{url_for('static',filename='example2.png')}}">Indian Cove, Joshua Tree CA</a>
 		</p>
 		
+		<li class="list-group-item">
+		<small>Get climbs near your current location</small>
+	
+		<form id="location" action="{{url_for('.location')}}" method="POST">
+		
+		<div class="form-group">	
+		<div class="container">
+		
+		<div class="row">
+			<div class="col sm">
+		
+			<label for="maxDistance">Radius:</label>
+
+			<select name="maxDistance" id="maxDistance">
+			  <option value=".5">half-mile</option>
+			  <option value="1">1 mile</option>
+			  <option value="3">3 miles</option>
+			  <option value="10">10 miles</option>
+			  <option value="25">25 miles</option>
+			  <option value="50">50 miles</option>
+			  <option value="100">100 miles</option>
+			</select>
+
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col sm">
+
+			<label for="minDiff">From Grade:</label>
+			<select name="minDiff" id="minDiff">
+			  <option value="3rd" selected>3rd</option>
+			  <option value="4th">4th</option>
+			  <option value="5.0">5.0</option>
+			  <option value="5.5">5.5</option>
+			  <option value="5.6">5.6</option>
+			  <option value="5.7">5.7</option>
+			  <option value="5.8">5.8</option>
+			  <option value="5.9">5.9</option>
+			  <option value="5.10a">5.10a</option>
+			  <option value="5.11a">5.11a</option>
+			  <option value="5.12a">5.12a</option>
+			  <option value="5.13a">5.13a</option>
+			</select>
+
+			</div>
+		
+			<div class="col sm">
+
+			<label for="maxDiff">To Grade:</label>
+			<select name="maxDiff" id="maxDiff">
+			  <option value="3rd">3rd</option>
+			  <option value="4th">4th</option>
+			  <option value="5.0">5.0</option>
+			  <option value="5.5">5.5</option>
+			  <option value="5.6">5.6</option>
+			  <option value="5.7">5.7</option>
+			  <option value="5.8">5.8</option>
+			  <option value="5.9">5.9</option>
+			  <option value="5.10a">5.10a</option>
+			  <option value="5.11a">5.11a</option>
+			  <option value="5.12a">5.12a</option>
+			  <option value="5.13a" selected>5.13a</option>
+			</select>
+
+		
+			<input type="hidden" id="lat" name="lat" value="{{lat}}"/>
+			<input type="hidden" id="lng" name="lng" value="{{lng}}""/>
+
+			</div>				
+		</div>
+		
+		</div><!-- /form-group -->			
+		</div><!-- /container -->
+		
+		<button type="button" id="btnLocation" onclick="submitLocation()" class="btn btn-primary">Get your location</button>
+						
+		</form>	
+	</li>	
+
+	<li class="list-group-item">
+	
 		<form action="/" method="POST">
 			<div class="form-group">	
-			<label for="username">Enter your Mountain Project username:</label>	
+			<label for="username"><small>Enter your Mountain Project username to get your to-do list:</small></label>	
 			<input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp" placeholder="Enter username" required />
    		 	<small id="emailHelp" class="form-text text-muted">We don't store or share your email.</small>
 			<input type="hidden" id="lat" name="lat"/>
 			<input type="hidden" id="lng" name="lng"/>
 			</div>
-			<button type="submit" class="btn btn-primary" value="Get GPX Todo List Data">Get GPX Todo List Data</button>
+			<button type="submit" class="btn btn-primary" value="Get Profile">Get your profile</button>
 		</form>
-
+	
+	</i>
 		</div>
 		
 		{% endif %}	

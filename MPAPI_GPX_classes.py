@@ -6,7 +6,6 @@
     Python Version: 3.7
     Description: A script that creates a GPX file from MountainProject todo lists.
 '''
-
 import urllib.request
 import gpxpy.gpx as gpx
 import simplejson as json
@@ -52,17 +51,17 @@ class MPAPI_GPX:
 		return self.getMP_API(routes_url)
 
 	#lat=40.03&lon=-105.25&maxDistance=10&minDiff=5.6&maxDiff=5.10&key=112244155-faf71266e0e5a4f73c53cc5ef291800d	
-	def getRoutesForLatLong(self,mp_URL_email,lat,long):
-		routes_url = self.getMP_URL(self.mp_URL_base,'get-routes-for-lat-lon',mp_URL_email)
-		routes_url = str.format("{0}&lat={1}&lon={2}&maxDistance=5&minDiff=5.6&maxDiff=5.10",routes_url,lat,long)
+	def getRoutesForLatLong(self,lat,lng,maxDistance="1",minDiff="5.6",maxDiff="5.9"):
+		routes_url = self.getMP_URL(self.mp_URL_base,'get-routes-for-lat-lon','a.a.com')
+		routes_url = str.format("{0}&lat={1}&lon={2}&maxDistance={3}&minDiff={4}&maxDiff={5}",routes_url,lat,lng,maxDistance,minDiff,maxDiff)
+		print(routes_url)
 		return self.getMP_API(routes_url)
-  		 
 
 	#gets a GPX file for routes near a given user's lat / long
-	def getMP_GPX_location(self,mp_URL_email,lat,long):
+	def getMP_GPX_location(self,lat,lng,maxDistance,minDiff,maxDiff):
 
 		gpxinstance = gpx.GPX()
-		mp_routes = self.getRoutesForLatLong(mp_URL_email,lat,long)
+		mp_routes = self.getRoutesForLatLong(lat,lng,maxDistance,minDiff,maxDiff)
 		
 		for route in mp_routes['routes']:
 			gpxinstance.waypoints.append(
@@ -74,7 +73,6 @@ class MPAPI_GPX:
 			
 		return gpxinstance.to_xml()
 		
-
 	#returns a string of XML 
 	def getMP_GPX(self,mp_URL_email):
 		pos = 0

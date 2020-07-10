@@ -108,10 +108,15 @@ def download(username):
 	else:
 		return render_template('main.html', error=MSG_API_EXCEEDED)
 
-@app.route('/location/<string:username>', methods=['GET'])	
-def location(username):	
+@app.route('/location/', methods=['GET','POST'])	
+def location():	
 	if get_api_throttle() == 0:		
-		output = mpapi_gpx.getMP_GPX_location(username,request.args['lat'],request.args['lng'])
+		output = mpapi_gpx.getMP_GPX_location(
+			request.form['lat'],
+			request.form['lng'],		
+			request.form['maxDistance'],
+			request.form['minDiff'],
+			request.form['maxDiff'])
 		set_api_throttle() 
 		resp = make_response(output)
 		resp.headers['Content-Type'] = 'text/xml;charset=UTF-8'
