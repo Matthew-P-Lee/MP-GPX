@@ -114,14 +114,12 @@
 		
 			<label for="maxDistance">Radius:</label>
 
-			<select name="maxDistance" id="maxDistance">
-			  <option value=".5">half-mile</option>
+			<select class="form-control-sm" name="maxDistance" id="maxDistance">
 			  <option value="1">1 mile</option>
 			  <option value="3">3 miles</option>
 			  <option value="10">10 miles</option>
 			  <option value="25">25 miles</option>
 			  <option value="50">50 miles</option>
-			  <option value="100">100 miles</option>
 			</select>
 
 			</div>
@@ -131,11 +129,11 @@
 			<div class="col sm">
 
 			<label for="minDiff">From Grade:</label>
-			<select name="minDiff" id="minDiff">
-			  <option value="3rd" selected>3rd</option>
+			<select class="form-control-sm" name="minDiff" id="minDiff">
+			  <option value="3rd" >3d</option>
 			  <option value="4th">4th</option>
 			  <option value="5.0">5.0</option>
-			  <option value="5.5">5.5</option>
+			  <option value="5.5" selected>5.5</option>
 			  <option value="5.6">5.6</option>
 			  <option value="5.7">5.7</option>
 			  <option value="5.8">5.8</option>
@@ -151,7 +149,7 @@
 			<div class="col sm">
 
 			<label for="maxDiff">To Grade:</label>
-			<select name="maxDiff" id="maxDiff">
+			<select class="form-control-sm" name="maxDiff" id="maxDiff">
 			  <option value="3rd">3rd</option>
 			  <option value="4th">4th</option>
 			  <option value="5.0">5.0</option>
@@ -160,13 +158,12 @@
 			  <option value="5.7">5.7</option>
 			  <option value="5.8">5.8</option>
 			  <option value="5.9">5.9</option>
-			  <option value="5.10a">5.10a</option>
+			  <option value="5.10a" selected>5.10a</option>
 			  <option value="5.11a">5.11a</option>
 			  <option value="5.12a">5.12a</option>
-			  <option value="5.13a" selected>5.13a</option>
+			  <option value="5.13a">5.13a</option>
 			</select>
 
-		
 			<input type="hidden" id="lat" name="lat" value="{{lat}}"/>
 			<input type="hidden" id="lng" name="lng" value="{{lng}}""/>
 
@@ -186,7 +183,7 @@
 		<form action="/" method="POST">
 			<div class="form-group">	
 			<label for="username"><small>Enter your Mountain Project username to get your to-do list:</small></label>	
-			<input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp" placeholder="Enter username" required />
+			<input type="email" class="form-control input-sm"" name="username" id="username" aria-describedby="emailHelp" placeholder="Enter username" required />
    		 	<small id="emailHelp" class="form-text text-muted">We don't store or share your email.</small>
 			<input type="hidden" id="lat" name="lat"/>
 			<input type="hidden" id="lng" name="lng"/>
