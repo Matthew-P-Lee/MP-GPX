@@ -10,7 +10,7 @@ body {
 
 @media (min-width: 720px) { 
   body {
-    background-image: url("/static/dorado-needle-720x540.jpg");
+    background-image: url("/static/dorado-needle-1920x1440.jpg");
     background-size: cover;
   }  
 }
