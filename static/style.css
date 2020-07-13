@@ -1,9 +1,30 @@
+html,
 body {
-  background-image: url("/static/dorado-needle.jpg");
   height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #4e75bb;
+}
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+@media (min-width: 720px) { 
+  body {
+    background-image: url("/static/dorado-needle-720x540.jpg");
+    background-size: cover;
+  }  
+}
+
+@media (min-width: 1920px) { 
+  body {
+    background-image: url("/static/dorado-needle-1920x1440.jpg");
+    background-size: cover;
+  }  
+}
+
+@media (min-width: 3840px) { 
+  body {
+    background-image: url("/static/dorado-needle-3840x2880.jpg");
+    background-size: cover;
+  }  
 }
